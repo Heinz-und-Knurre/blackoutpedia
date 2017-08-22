@@ -40,7 +40,7 @@ the loaded index during our performance testing
 
 | Language | Dump size (GB) | Index size (GB) |
 | -------- | -------------- | --------------- |
-| English  | 14.4           | 13.2            |
+| English  | 14.4           | 42.7            |
 | German   | 4.4            | 14.2            |
 
 As a rule of thumb, you should have free disk space of 4 times the size of the dump to be imported. 
@@ -51,7 +51,7 @@ Java 8 Update 141 on a 7th generation Intel Core i5
 
 | Language | Dump size (GB) | # Articles (Mio)| Time (min) |
 | -------- | -------------- | --------------- | ---------- |
-| English  | 14.4           | 13.2            | 151        |
+| English  | 14.4           | 17.7            | 151        |
 | German   | 4.4            | 4.1             | 52         |
 ## Build
 The minimum requirements for the build are:
@@ -118,4 +118,4 @@ progress=1%, eta(min)=151, with pageCount=17080
 progress=2%, eta(min)=147, with pageCount=40459
 ```
 
-This will tell you how many 
+This will tell you how many drinks you can have prior to being able to surf the content.
