@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>BlackoutPedia 1.1</title>
+    <link rel="stylesheet" href="/css?main">
+    <link rel="stylesheet" href="/css?wiki">
+    <script>
+		function checkInput(e) {
+			var alert = document.getElementById('pSearchError');
+			var input = document.getElementById('inputSearch');
+    			if (input.value === "") {
+    			    e.preventDefault();
+        			alert.setAttribute('aria-hidden', false);
+        			input.setAttribute('aria-invalid', true);
+        			input.focus();
+    			}
+		}
+		window.onload = function() {
+			var button = document.getElementById('buttonSearch');
+			var input = document.getElementById('inputSearch');
+			button.addEventListener('click', checkInput);
+    			input.focus();
+		};
+    </script>
+</head>
+<body>
+<div id="divSearch" role="search">
+    <form id="searchForm" action="/">
+        <label id="labelSearch" for="inputSearch">
+            Enter search term
+        </label>
+        <p id="pSearchError" role="alert" aria-hidden="true">
+            Please enter a search term
+        </p>
+        <p/>
+        <input id="inputSearch" type="search" name="search" value="%search">
+        <p/>
+        <input id="buttonSearch" type="submit" value="Search">
+    </form>
+    <nav id="navResult">
+        %result
+    </nav>
+</div>
+<div id="divContent">
+    %content
+</div>
+</body>
+</html>

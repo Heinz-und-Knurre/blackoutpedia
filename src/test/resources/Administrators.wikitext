@@ -1,0 +1,19 @@
+==== Administrators ====
+[[File:Wikipedia-Test Administrator.png|100px|right|link=]]
+'''Administrators''' are editors who have the extra ability to:
+*Block and unblock other users
+*Delete and undelete pages on the site
+*Protect and unprotect pages
+*Edit pages in the MediaWiki namespace (e.g., [[MediaWiki:Sidebar]])
+*View deleted edits of a page
+*View any contributions by a user to pages which are deleted.
+
+For a list of all Administrators on Test Wikipedia, see [[Special:ListUsers/sysop]].
+
+===== Becoming an administrator =====
+Administrator rights can be requested at [[Wikipedia:Requests/Permissions]]. A [[Wikipedia:Bureaucrats|bureaucrat]] will decide on the request then. Candidates should meet the following requirements:
+#Be active and trusted on other projects and preferably be a sysop elsewhere, or
+#Demonstrate a need for the access (e.g. developers).
+__NOTOC__
+
+&lt;noinclude&gt;[[Category:User groups|Administrators]]&lt;/noinclude&gt;
