@@ -96,7 +96,7 @@ public class HttpGetHandler implements HttpHandler {
                                 cp.getPage()
                         )
                 );
-            } catch (UTF8EncodingException e) {
+            } catch (Throwable e) {
                 LOGGER.error("failed to render wiki text for page={}", page.getTitle(), e);
             }
         }
