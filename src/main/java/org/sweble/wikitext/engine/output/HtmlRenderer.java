@@ -117,6 +117,9 @@ public class HtmlRenderer
         HtmlRendererBase
         implements
         CompleteEngineVisitorNoReturn {
+
+    private Long untitledLinkCounter = 1L;
+
     @Override
     public void visit(EngProcessedPage n) {
         dispatch(n.getPage());
@@ -181,8 +184,8 @@ public class HtmlRenderer
                     callback.makeUrl(n.getTarget()),
                     n.getTitle());
         } else {
-            // Fixed this to remove a couple of errors
-            //throw new FmtNotYetImplementedError();
+            pt("<a rel=\"nofollow\" class=\"external text\" href=\"%s\">[" + untitledLinkCounter++ + "]</a>",
+                    callback.makeUrl(n.getTarget()));
         }
     }
 
@@ -960,7 +963,7 @@ public class HtmlRenderer
     }
 
 	/*
-	private void wrapText(String text)
+    private void wrapText(String text)
 	{
 		if (inPre > 0)
 		{

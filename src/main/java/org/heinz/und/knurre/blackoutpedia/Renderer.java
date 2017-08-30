@@ -15,6 +15,7 @@
  */
 package org.heinz.und.knurre.blackoutpedia;
 
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,12 +41,12 @@ final class Renderer {
         // First load the template
         StringBuilder html = new StringBuilder();
         try {
-            List<String> lines = Files.readAllLines(Paths.get(Renderer.class.getResource("/main.html").toURI()));
+            List<String> lines = IOUtils.readLines(Renderer.class.getResourceAsStream("/main.html"));
             for (String line : lines) {
                 html.append(line);
                 html.append("\n");
             }
-        } catch (IOException | URISyntaxException e) {
+        } catch (IOException e) {
             LOGGER.error("failed to load main HTML template", e);
             throw new RenderException(new UTF8EncodingException(e));
         }

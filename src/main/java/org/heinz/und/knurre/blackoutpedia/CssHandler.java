@@ -18,25 +18,26 @@ package org.heinz.und.knurre.blackoutpedia;
 import io.undertow.server.HttpHandler;
 import io.undertow.server.HttpServerExchange;
 import io.undertow.util.StatusCodes;
+import org.apache.commons.io.IOUtils;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.io.InputStream;
+import java.util.List;
 
 public class CssHandler implements HttpHandler {
 
     @Override
     public void handleRequest(HttpServerExchange exchange) throws Exception {
 
-        Path css;
+        InputStream css;
         // Depending on the query string load the main or the wiki CSS
         if (exchange.getQueryString().endsWith("main")) {
-            css = Paths.get(Main.class.getResource("/main.css").toURI());
+            css = Main.class.getResourceAsStream("/main.css");
         } else {
-            css = Paths.get(Main.class.getResource("/wiki.css").toURI());
+            css = Main.class.getResourceAsStream("/wiki.css");
         }
         StringBuilder result = new StringBuilder();
-        for (String line : Files.readAllLines(css)) {
+        List<String> lines = IOUtils.readLines(css);
+        for (String line : lines) {
             result.append(line);
             result.append("\n");
         }

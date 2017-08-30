@@ -1,12 +1,12 @@
 /**
  * Copyright © 2017 Heinz&Knurre (andreas.gorbach@gmail.com christian.d.middel@gmail.com)
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,6 +17,7 @@ package org.heinz.und.knurre.blackoutpedia;
 
 import io.undertow.Handlers;
 import io.undertow.Undertow;
+import org.apache.commons.io.IOUtils;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.slf4j.Logger;
@@ -29,6 +30,7 @@ import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.regex.Matcher;
@@ -49,11 +51,11 @@ public class Main {
 
         // Print version information
         try {
-            Path banner = Paths.get(Main.class.getResource("/banner.txt").toURI());
-            for (String line : Files.readAllLines(banner)) {
+            List<String> banner = IOUtils.readLines(Main.class.getResourceAsStream("/banner.txt"));
+            for (String line : banner) {
                 LOGGER.info(line);
             }
-        } catch (URISyntaxException | IOException e) {
+        } catch (IOException e) {
             LOGGER.info("BlackoutPedia");
         }
         LOGGER.info("Release 1.1");
