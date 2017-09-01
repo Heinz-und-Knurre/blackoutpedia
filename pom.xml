@@ -105,7 +105,8 @@
                         </goals>
                         <configuration>
                             <transformers>
-                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                                     <mainClass>org.heinz.und.knurre.blackoutpedia.Main</mainClass>
                                 </transformer>
                             </transformers>
@@ -179,11 +180,6 @@
             <groupId>org.apache.lucene</groupId>
             <artifactId>lucene-queryparser</artifactId>
             <version>6.6.0</version>
-        </dependency>
-        <dependency>
-            <groupId>info.bliki.wiki</groupId>
-            <artifactId>bliki-core</artifactId>
-            <version>3.1.0</version>
         </dependency>
         <dependency>
             <groupId>org.sweble.wikitext</groupId>

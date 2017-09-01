@@ -579,18 +579,26 @@ public class HtmlRendererTest {
                 "[[Kategorie:Kreisstadt in Baden-Württemberg]]\n" +
                 "[[Kategorie:Große Kreisstadt in Baden-Württemberg]]\n";
 
+
+        Long duration = 0L;
         WikiConfig config = DefaultConfigEnWp.generate();
         WtEngineImpl engine = new WtEngineImpl(config);
-        PageTitle pageTitle = PageTitle.make(config, "Test");
-        PageId pageId = new PageId(pageTitle, -1);
-        EngProcessedPage cp = engine.postprocess(pageId, raw, null);
+        String html = null;
+        for (int i = 0; i < 100; i++) {
+            Long start = System.currentTimeMillis();
+            PageTitle pageTitle = PageTitle.make(config, "Test");
+            PageId pageId = new PageId(pageTitle, -1);
+            EngProcessedPage cp = engine.postprocess(pageId, raw, null);
 
-        String html = HtmlRenderer.print(
-                new BlackoutPediaHtmlRendererCallback(new TestIndex(), ""),
-                config,
-                pageTitle,
-                cp.getPage()
-        );
+            html = HtmlRenderer.print(
+                    new BlackoutPediaHtmlRendererCallback(new TestIndex(), ""),
+                    config,
+                    pageTitle,
+                    cp.getPage()
+            );
+            duration += System.currentTimeMillis() - start;
+        }
+        System.out.println("avg runtime sweble: " + duration / 100);
 
         assertTrue(html.contains("Grillplatz befindet.<a rel=\"nofollow\" class=\"external text\" href=\"http://www.szbz.de/nachrichten/artikel/detail/weite-saetze-und-harte-landungen-9-2-2013/\">[1]</a>"));
     }

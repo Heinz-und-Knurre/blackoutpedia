@@ -15,10 +15,14 @@
  */
 package org.heinz.und.knurre.blackoutpedia;
 
+import de.fau.cs.osr.utils.FmtNotYetImplementedError;
 import io.undertow.server.HttpHandler;
 import io.undertow.server.HttpServerExchange;
 import io.undertow.util.Headers;
 import io.undertow.util.StatusCodes;
+import org.commonmark.node.Node;
+import org.commonmark.parser.*;
+import org.commonmark.parser.Parser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sweble.wikitext.engine.PageId;
@@ -46,9 +50,13 @@ public class HttpGetHandler implements HttpHandler {
     private static final Logger LOGGER = LoggerFactory.getLogger(HttpGetHandler.class);
 
     private final PageStoreI pageStore;
+    private final WikiConfig config;
+    private final WtEngineImpl wtEngine;
 
     public HttpGetHandler(PageStoreI pageStore) {
         this.pageStore = pageStore;
+        this.config = DefaultConfigEnWp.generate();
+        this.wtEngine = new WtEngineImpl(this.config);
     }
 
     @Override
@@ -77,21 +85,19 @@ public class HttpGetHandler implements HttpHandler {
 
         // We only HTML convert content if we have a page
         if (page != null) {
-            WikiConfig config = DefaultConfigEnWp.generate();
-            WtEngineImpl engine = new WtEngineImpl(config);
-            PageTitle pageTitle = PageTitle.make(config, page.getTitle());
-            PageId pageId = new PageId(pageTitle, -1);
-            EngProcessedPage cp = engine.postprocess(pageId, page.getText(), null);
             html.append("<h1>");
             html.append(page.getTitle());
             html.append("</h1>\n");
             // In the unlikely event of UTF8 not being able for encoding
             // we will render a page with title only
             try {
+                PageTitle pageTitle = PageTitle.make(config, page.getTitle());
+                PageId pageId = new PageId(pageTitle, -1);
+                EngProcessedPage cp = this.wtEngine.postprocess(pageId, page.getText(), null);
                 html.append(
                         HtmlRenderer.print(
-                                new BlackoutPediaHtmlRendererCallback(pageStore, paramSearch),
-                                config,
+                                new BlackoutPediaHtmlRendererCallback(this.pageStore, paramSearch),
+                                this.config,
                                 pageTitle,
                                 cp.getPage()
                         )
