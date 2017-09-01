@@ -15,14 +15,10 @@
  */
 package org.heinz.und.knurre.blackoutpedia;
 
-import de.fau.cs.osr.utils.FmtNotYetImplementedError;
 import io.undertow.server.HttpHandler;
 import io.undertow.server.HttpServerExchange;
 import io.undertow.util.Headers;
 import io.undertow.util.StatusCodes;
-import org.commonmark.node.Node;
-import org.commonmark.parser.*;
-import org.commonmark.parser.Parser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sweble.wikitext.engine.PageId;
@@ -31,12 +27,8 @@ import org.sweble.wikitext.engine.WtEngineImpl;
 import org.sweble.wikitext.engine.config.WikiConfig;
 import org.sweble.wikitext.engine.nodes.EngProcessedPage;
 import org.sweble.wikitext.engine.output.HtmlRenderer;
-import org.sweble.wikitext.engine.output.HtmlRendererCallback;
-import org.sweble.wikitext.engine.output.MediaInfo;
 import org.sweble.wikitext.engine.utils.DefaultConfigEnWp;
-import org.sweble.wikitext.parser.nodes.WtUrl;
 
-import java.io.StringWriter;
 import java.util.Collections;
 import java.util.List;
 

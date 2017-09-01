@@ -15,11 +15,9 @@
  */
 package org.heinz.und.knurre.blackoutpedia;
 
-import org.apache.lucene.queryparser.classic.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
