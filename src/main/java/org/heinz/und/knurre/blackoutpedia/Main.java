@@ -26,6 +26,7 @@ import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.List;
 
 /**
@@ -92,6 +93,24 @@ public class Main {
 
         // Parse if no pages are in the index and a dump is given
         if (cmd.getDump() != null) {
+
+            // We check if the index directory partition has at least 4 times the dump file size
+            Long dumpSize;
+            try {
+                dumpSize = Files.size(cmd.getDump());
+                LOGGER.info("dump file size(mb)={}", (dumpSize/1024/1024));
+            } catch (IOException e) {
+                LOGGER.error("cannot determine size of dump={}", cmd.getDump(), e);
+                throw new RuntimeException(e);
+            }
+            Long usable = cmd.getIndex().toFile().getUsableSpace();
+            LOGGER.info("usable disk space at index location={}", (usable/1024/1024));
+            if (usable < (dumpSize*4)){
+                LOGGER.error("not enough disk space at index={}, at least 4 times the dump file size required", cmd.getIndex());
+                System.exit(ExitCodes.DISKSPACE.code());
+                throw new RuntimeException();
+            }
+
             if (index.getPageCount() > 0) {
                 LOGGER.info("index directory={} already contains documents, wikipedia dump will not be processed", cmd.getIndex());
             } else {

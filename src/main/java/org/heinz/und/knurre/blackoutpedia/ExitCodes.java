@@ -25,7 +25,9 @@ enum ExitCodes {
     // Failure to initialize index
     INDEX(2),
     // Failure during parsing of Wikipedia dump
-    PARSE(4);
+    PARSE(4),
+    // Not enough disk space to work with dump
+    DISKSPACE(8);
 
     private Integer code;
 
