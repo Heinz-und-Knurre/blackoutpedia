@@ -54,9 +54,9 @@ public interface PageStoreI {
     WikipediaPage get(Integer id);
 
     /**
-     * Retrieve the store identifier for the specified title.
+     * Retrieve the page by the specified title.
      * @param title Title
-     * @return Store identifier
+     * @return Wikipedia page
      */
-    Integer getTitleId(String title);
+    WikipediaPage get(String title);
 }

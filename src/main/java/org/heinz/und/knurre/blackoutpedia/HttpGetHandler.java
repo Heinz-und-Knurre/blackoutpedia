@@ -64,9 +64,19 @@ public class HttpGetHandler implements HttpHandler {
         String paramId = exchange.getQueryParameters().get("id") == null
                 ? null
                 : exchange.getQueryParameters().get("id").peek();
+        // Grab the id query parameter
+        String paramTitle = exchange.getQueryParameters().get("title") == null
+                ? null
+                : exchange.getQueryParameters().get("title").peek();
 
-        // We load a page if we have a id parameter
-        WikipediaPage page = paramId == null ? null : this.pageStore.get(Integer.valueOf(paramId));
+        // We load a page if we have a id or title parameter
+        WikipediaPage page = null;
+        if (paramId != null) {
+            page = this.pageStore.get(Integer.valueOf(paramId));
+        }
+        if (paramTitle != null) {
+            page = this.pageStore.get(paramTitle);
+        }
 
         // We search for hits if we have a query, or hits is an empty list
         List<Integer> hits = paramSearch == null

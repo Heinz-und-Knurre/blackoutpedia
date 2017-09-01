@@ -609,8 +609,16 @@ public class HtmlRenderer
 
     @Override
     public void visit(WtRedirect n) {
-        // TODO: Implement
-        throw new FmtNotYetImplementedError();
+
+        PageTitle pt;
+        try {
+            pt = PageTitle.make(this.wikiConfig, n.getTarget().getAsString());
+        } catch (LinkTargetException e) {
+            throw new VisitingException(e);
+        }
+
+        String url = callback.makeUrl(pt);
+        pf("<a href=\"%s\">%s</a>", url, pt.getDenormalizedFullTitle());
     }
 
     public void visit(WtSection n) {

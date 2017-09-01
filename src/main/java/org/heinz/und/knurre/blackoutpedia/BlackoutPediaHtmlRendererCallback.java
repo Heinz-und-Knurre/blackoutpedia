@@ -1,12 +1,12 @@
 /**
  * Copyright © 2017 Heinz&Knurre (andreas.gorbach@gmail.com christian.d.middel@gmail.com)
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -48,17 +48,15 @@ public class BlackoutPediaHtmlRendererCallback implements HtmlRendererCallback {
     public boolean resourceExists(PageTitle target) {
 
         LOGGER.debug("resourceExists pageTitle={}", target.getTitle());
-        Integer id = this.pageStore.getTitleId(target.getTitle());
-        return id != null;
+        return true;
     }
 
     @Override
     public String makeUrl(PageTitle target) {
 
         LOGGER.debug("makeUrl pageTitle={}", target.getTitle());
-        Integer id = this.pageStore.getTitleId(target.getTitle());
         try {
-            return "?id=" + id + "&search=" + URLEncoder.encode(this.search, "utf-8");
+            return "?title=" + URLEncoder.encode(target.getTitle()) + "&search=" + URLEncoder.encode(this.search, "utf-8");
         } catch (UnsupportedEncodingException e) {
             LOGGER.error("UTF8 not supported when encoding wiki page url for target={}", target.getTitle(), e);
             throw new UTF8EncodingException(e);

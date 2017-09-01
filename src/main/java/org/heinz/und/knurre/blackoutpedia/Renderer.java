@@ -33,20 +33,9 @@ final class Renderer {
 
     private static final Renderer INSTANCE = new Renderer();
 
-    public String render(PageStoreI pageStore, List<Integer> hits, String content, String search) {
+    private final String template;
 
-        // First load the template
-        StringBuilder html = new StringBuilder();
-        try {
-            List<String> lines = IOUtils.readLines(Renderer.class.getResourceAsStream("/main.html"));
-            for (String line : lines) {
-                html.append(line);
-                html.append("\n");
-            }
-        } catch (IOException e) {
-            LOGGER.error("failed to load main HTML template", e);
-            throw new RenderException(new UTF8EncodingException(e));
-        }
+    public String render(PageStoreI pageStore, List<Integer> hits, String content, String search) {
 
         // Then render the links for the search results
         StringBuilder results = new StringBuilder("<ul id=\"ulResult\"\">\n");
@@ -70,13 +59,27 @@ final class Renderer {
         }
 
         // Now inject the results, the content and the search input text
-        return html.toString()
+        return this.template
                 .replace("%result", results.toString())
                 .replace("%content", content)
                 .replace("%search", search == null ? "" : search);
     }
 
     private Renderer() {
+
+        // First load the template
+        StringBuilder html = new StringBuilder();
+        try {
+            List<String> lines = IOUtils.readLines(Renderer.class.getResourceAsStream("/main.html"));
+            for (String line : lines) {
+                html.append(line);
+                html.append("\n");
+            }
+            this.template = html.toString();
+        } catch (IOException e) {
+            LOGGER.error("failed to load main HTML template", e);
+            throw new RenderException(new UTF8EncodingException(e));
+        }
     }
 
     public static final Renderer instance() {

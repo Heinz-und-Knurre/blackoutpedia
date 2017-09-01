@@ -1,12 +1,12 @@
 /**
  * Copyright © 2017 Heinz&Knurre (andreas.gorbach@gmail.com christian.d.middel@gmail.com)
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -157,17 +157,27 @@ final class Index implements PageStoreI {
     }
 
     @Override
-    public Integer getTitleId(String title) {
+    public WikipediaPage get(String title) {
 
         LOGGER.debug("index id retrieval of document with title={}", title);
         QueryParser parser = new QueryParser(TITLE, this.analyzer);
         Query query = parser.createPhraseQuery(TITLE, QueryParser.escape(title));
+        Document document;
         try {
             TopDocs hits = this.searcher.search(query, 1);
-            return hits.scoreDocs.length != 1 ? null : hits.scoreDocs[0].doc;
+            if (hits.scoreDocs.length != 1) {
+                return null;
+            }
+            document = this.searcher.doc(hits.scoreDocs[0].doc);
         } catch (IOException e) {
+            LOGGER.error("retrieving index document title={} failed", title, e);
             throw new PageStoreQueryException(e);
         }
+        WikipediaPage result = new WikipediaPage();
+        result.setId(document.get(ID));
+        result.setTitle(document.get(TITLE));
+        result.setText(document.get(TEXT));
+        return result;
     }
 
     /**
