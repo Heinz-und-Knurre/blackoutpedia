@@ -24,13 +24,13 @@ of articles.
   
 When choosing a dump for download, make sure you download the file which name ends
 ```
--pages-articles.xml.bz
+-pages-articles.xml.bz2
 ```
 such as the following examples for the languages mentioned above
 ```
-enwiki-20170801-pages-articles.xml.bz
-dewiki-20170801-pages-articles.xml.bz
-frwiki-20170801-pages-articles.xml.bz
+enwiki-20170801-pages-articles.xml.bz2
+dewiki-20170801-pages-articles.xml.bz2
+frwiki-20170801-pages-articles.xml.bz2
 ```
 There are also smaller dumps for [testing](https://dumps.wikimedia.org/testwiki) if you want to quickstart with a 
 limited dump file size and a limited amount of articles (which are of no value if comes to content).
