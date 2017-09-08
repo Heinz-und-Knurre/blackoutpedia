@@ -18,29 +18,43 @@ package org.heinz.und.knurre.blackoutpedia;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.spi.SubCommand;
-import org.kohsuke.args4j.spi.SubCommandHandler;
 import org.kohsuke.args4j.spi.SubCommands;
 
 import java.nio.file.Path;
 
 /**
- * Implements the command bean that is used to store the result of the
- * command line argument parsing.
+ * Implements the index command bean that is used to store the result of the
+ * command line argument parsing for the serve sub command.
  */
-final class Command implements CommandI {
+public final class ServeCommand implements CommandI {
 
-    @Argument(metaVar = "sub command", required = true, usage = "{index|kraken|serve}", handler = SubCommandHandler.class)
-    @SubCommands({
-            @SubCommand(name = "index", impl = IndexCommand.class),
-            @SubCommand(name = "kraken", impl = KrakenCommand.class),
-            @SubCommand(name = "serve", impl = ServeCommand.class),
-    })
-    private CommandI subCommand;
+    @Option(name = "-s", aliases = "--store", required = true, usage = "storage directory")
+    private Path store;
+
+    @Option(name = "-p", aliases = "--port", usage = "http port, defaults: 8080")
+    private Integer port = 8080;
+
+    @Option(name = "-b", aliases = "--bind", usage = "bind address, defaults: 127.0.0.1")
+    private String bind = "127.0.0.1";
 
     /**
-     * @return Sub command
+     * @return Storage directory
      */
-    public CommandI getSubCommand() {
-        return this.subCommand;
+    public Path getStore() {
+        return this.store;
+    }
+
+    /**
+     * @return HTTP port
+     */
+    public Integer getPort() {
+        return this.port;
+    }
+
+    /**
+     * @return Bind address
+     */
+    public String getBind() {
+        return this.bind;
     }
 }
