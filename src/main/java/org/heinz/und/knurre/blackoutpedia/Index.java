@@ -84,7 +84,7 @@ final class Index implements PageStoreI {
         this.searcher = new IndexSearcher(reader);
 
         LOGGER.info("index initialized for directory={}", this.directory);
-        LOGGER.info("index contains {} document(s)", this.reader.numDocs());
+        LOGGER.info("index contains {} pages(s)", this.reader.numDocs());
     }
 
     @Override
@@ -113,7 +113,7 @@ final class Index implements PageStoreI {
     @Override
     public List<Integer> search(String query) {
 
-        LOGGER.debug("index search with query={}", query);
+        LOGGER.debug("index search page with query={}", query);
         QueryParser parser = new QueryParser(TEXT, this.analyzer);
         Query q;
         try {
@@ -141,13 +141,13 @@ final class Index implements PageStoreI {
     @Override
     public WikipediaPage get(Integer id) {
 
-        LOGGER.debug("index retrieval of document id={}", id);
+        LOGGER.debug("index retrieval of page id={}", id);
         WikipediaPage result = new WikipediaPage();
-        Document document = null;
+        Document document;
         try {
             document = this.searcher.doc(id);
         } catch (IOException e) {
-            LOGGER.error("retrieving index document id={} failed", id, e);
+            LOGGER.error("retrieving index page id={} failed", id, e);
             throw new PageStoreGetException(e);
         }
         result.setId(document.get(ID));
@@ -159,18 +159,19 @@ final class Index implements PageStoreI {
     @Override
     public WikipediaPage get(String title) {
 
-        LOGGER.debug("index id retrieval of document with title={}", title);
+        LOGGER.debug("index id retrieval of page with title={}", title);
         QueryParser parser = new QueryParser(TITLE, this.analyzer);
         Query query = parser.createPhraseQuery(TITLE, QueryParser.escape(title));
         Document document;
         try {
             TopDocs hits = this.searcher.search(query, 1);
             if (hits.scoreDocs.length != 1) {
-                return null;
+                LOGGER.error("no page with title={}", title);
+                throw new PageStoreGetException(null);
             }
             document = this.searcher.doc(hits.scoreDocs[0].doc);
         } catch (IOException e) {
-            LOGGER.error("retrieving index document title={} failed", title, e);
+            LOGGER.error("retrieving index page title={} failed", title, e);
             throw new PageStoreQueryException(e);
         }
         WikipediaPage result = new WikipediaPage();
@@ -192,6 +193,6 @@ final class Index implements PageStoreI {
         LOGGER.debug("shutting down index directory");
         this.fsDirectory.close();
 
-        LOGGER.info("index properly shutdown in directory={}", this.directory);
+        LOGGER.info("index properly shutdown for directory={}", this.directory);
     }
 }

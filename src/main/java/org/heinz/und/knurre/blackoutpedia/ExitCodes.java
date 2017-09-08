@@ -27,7 +27,11 @@ enum ExitCodes {
     // Failure during parsing of Wikipedia dump
     PARSE(4),
     // Not enough disk space to work with dump
-    DISKSPACE(8);
+    DISKSPACE(8),
+    // Cannot initialize channels
+    CHANNELS(16),
+    // Invalid arguments specified
+    ARGUMENTS(32);
 
     private Integer code;
 

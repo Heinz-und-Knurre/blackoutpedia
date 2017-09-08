@@ -29,11 +29,9 @@ public class BlackoutPediaHtmlRendererCallback implements HtmlRendererCallback {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BlackoutPediaHtmlRendererCallback.class);
 
-    private final PageStoreI pageStore;
     private final String search;
 
-    public BlackoutPediaHtmlRendererCallback(PageStoreI pageStore, String search) {
-        this.pageStore = pageStore;
+    public BlackoutPediaHtmlRendererCallback(String search) {
         this.search = search;
     }
 
@@ -67,9 +65,7 @@ public class BlackoutPediaHtmlRendererCallback implements HtmlRendererCallback {
     public String makeUrl(WtUrl target) {
 
         LOGGER.debug("makeUrl target={}", target);
-        return target.getProtocol() == ""
-                ? target.getPath()
-                : target.getProtocol() + ":" + target.getPath();
+        return target.getProtocol() + ":" + target.getPath();
     }
 
     @Override
